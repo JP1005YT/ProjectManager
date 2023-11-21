@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Basic-Server</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script> -->
+</head>
+<body>
+    <div id="sideMenu">
+        <p id="dirStr"></p>
+        <h1>
+            <i class='bx bxs-folder-open'></i>
+            <span id="dirName">
+
+            </span>
+        </h1>
+        <ul id="dirArchives"></ul>
+    </div>
+    <section id="archiveContent">
+        
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        let pathActually = '/'
+        async function getData(params){
+            let dataForRequest = {}
+            if(params){
+                dataForRequest['path'] = params
+            }
+            const dados = await fetch('../api',{
+                method: "GET",
+                headers: dataForRequest
+            });
+            const response = await dados.json()
+            construct(response)
+        }
+        getData(pathActually)
+        async function readFile(params){
+            console.log(pathActually  + `/${params}`)
+            let dataForRequest = {}
+            if(params){
+                dataForRequest['path'] = pathActually  + `/${params}`
+            }
+            const dados = await fetch('../api/file',{
+                method: "GET",
+                headers: dataForRequest
+            });
+            const response = await dados.json()
+            document.querySelector("#archiveContent").innerHTML = response.response
+            hljs.highlightAll()
+
+        }
+        async function construct(data){
+            const div = document.querySelector("#dirArchives")
+            const pathName = document.querySelector("#dirName")
+            div.innerHTML = ''
+            pathName.innerHTML = ""
+            document.querySelector("p").innerHTML = data.path
+            document.querySelector("#dirName").innerHTML += data.pathName
+            let backButton = document.createElement('li')
+            let icon = document.createElement("i")
+            icon.classList.value = "bx bx-left-arrow-alt"
+            backButton.appendChild(icon)
+            backButton.classList.value = 'backButton'
+            backButton.innerHTML += 'Voltar'
+            backButton.addEventListener("click",() => {
+                pathManager('back')
+            })
+            div.appendChild(backButton)
+            Object.keys(data.data).forEach( item => {
+                let liItem = document.createElement('li')
+                if(data.data[item]){
+                    let icon = document.createElement("i")
+                    icon.classList.value = 'bx bxs-folder'
+                    liItem.appendChild(icon)
+                    liItem.classList.add('folder')
+                    liItem.addEventListener("click",(e)=>{
+                        pathManager('join',item)
+                    })
+                }else{
+                    let icon = document.createElement("i")
+                    icon.classList.value = 'bx bx-file'
+                    liItem.appendChild(icon)
+                    liItem.classList.add('file')
+                    liItem.addEventListener("click",(e)=>{
+                        readFile(item)
+                    })
+                }
+                liItem.innerHTML += item
+                div.appendChild(liItem)
+            })
+        }
+        function pathManager(action,params){
+            if(action === 'join'){
+                pathActually = pathActually + `/${params}`
+            }
+            if(action === 'back'){
+                let folderActually = pathActually.split('/')[pathActually.split('/').length - 1]
+                newer = pathActually.slice(0,pathActually.length - folderActually.length - 1)
+                pathActually = newer
+            }
+            console.log(pathActually)
+            console.log(action,params)
+            getData(pathActually)
+        }
+    </script>
+</body>
+</html>

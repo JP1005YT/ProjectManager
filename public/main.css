@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Inconsolata", monospace;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+#archiveContent {
+  width: 80%;
+  height: 100vh;
+}
+#archiveContent textarea {
+  outline-style: none;
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 100vh;
+}
+
+#sideMenu {
+  width: 20%;
+  height: 100vh;
+  background: #222222;
+  color: #F3EFE0;
+}
+#sideMenu p {
+  padding: 5px;
+  background: #22A39F;
+  font-size: small;
+}
+#sideMenu h1 {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 5px;
+  background: #434242;
+}
+#sideMenu h1 i {
+  padding: 10px;
+}
+#sideMenu ul .backButton {
+  position: relative;
+  transition: 200ms;
+  cursor: pointer;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 2px;
+}
+#sideMenu ul .backButton:hover {
+  font-size: 20px;
+}
+#sideMenu ul .backButton:after {
+  position: absolute;
+  bottom: -2px;
+  content: "";
+  width: 99%;
+  height: 2px;
+  background: #434242;
+}
+#sideMenu ul .backButton:hover i {
+  margin-left: 10px;
+}
+#sideMenu ul .backButton i {
+  transition: 200ms;
+  font-size: 30px;
+  padding: 5px;
+}
+#sideMenu ul li {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 5px;
+}
+#sideMenu ul li i {
+  font-size: 25px;
+  padding: 5px;
+}
+#sideMenu ul li:hover {
+  cursor: pointer;
+  background: #434242;
+}/*# sourceMappingURL=main.css.map */
