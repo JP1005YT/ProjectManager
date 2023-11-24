@@ -22,12 +22,12 @@ app.get('/api', async (req, res) => {
     if(req.headers.path){
         path = req.headers.path
     }
-    const normalizePath = P.path.resolve(__dirname + '/../myfiles' + path);
+    const normalizePath = P.path.resolve(__dirname + '/../myProjects' + path);
     // console.log(normalizePath)
     let ObjectofItems = {}
     let permit = false
     normalizePath.split('\\').forEach(element => {
-        if(element === "myfiles"){
+        if(element === "myProjects"){
             permit = true
         }
     });
@@ -81,14 +81,14 @@ app.get('/api/file', (req, res) => {
         return;
     }
 
-    const filePath = P.path.join(__dirname,'/../myfiles', fileName);
+    const filePath = P.path.join(__dirname,'/../myProjects', fileName);
     P.fs.readFile(filePath, 'utf-8', (err, data) => {
         if (err) {
             console.error(err);
             res.status(500).send('Erro ao ler o arquivo.');
         } else {
             // Exibir o conteúdo do arquivo na página
-            res.send({response : `<pre><textarea class="hljs"><textarea>${data}</textarea></textarea></pre>`});
+            res.send({response : `<pre class="hljs"><code class="language-js">${data}</code></pre>`});
         }
     });
 }); 

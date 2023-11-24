@@ -24,6 +24,18 @@
     <section id="archiveContent">
         
     </section>
+    <div id="context-menu">
+        <ul class="folder">
+            <li>Abrir no VSCODE</li>
+            <li>Renomear</li>
+            <li>Deletar</li>
+        </ul>
+        <ul class="file">
+            <li>Abrir no VSCODE</li>
+            <li>Renomear</li>
+            <li>Deletar</li>
+        </ul>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         let pathActually = '/'
@@ -39,7 +51,6 @@
             const response = await dados.json()
             construct(response)
         }
-        getData(pathActually)
         async function readFile(params){
             console.log(pathActually  + `/${params}`)
             let dataForRequest = {}
@@ -108,6 +119,35 @@
             console.log(action,params)
             getData(pathActually)
         }
+        getData(pathActually)
+        addEventListener("contextmenu",(e) => {
+            let context = document.querySelector("#context-menu")
+            console.log(context)
+            context.querySelector(".folder").classList.value = 'folder'
+            context.querySelector(".file").classList.value = 'file'
+            e.preventDefault()
+            if(e.target.nodeName === "LI" && e.target.classList.value != "backButton"){
+                let contextMenu = document.querySelector("#context-menu")
+                contextMenu.classList.add('active')
+                contextMenu.style.left = e.clientX + 'px'
+                contextMenu.style.top = e.clientY + 'px'
+                if(e.target.classList.value === "folder"){
+                    contextMenu.querySelector(".folder").classList.add("active")
+                }else{
+                    contextMenu.querySelector(".file").classList.add("active")
+                }
+                document.querySelector("body").appendChild(contextMenu)
+            }
+            console.log(e.clientX,e.clientY,)
+        })
+        addEventListener("click",(e) => {
+            let context = document.querySelector("#context-menu")
+            if(context.classList.value === "active"){
+                context.querySelector(".folder").classList.value = ''
+                context.querySelector(".file").classList.value = ''
+                context.classList.value = ""
+            }
+        })
     </script>
 </body>
 </html>
