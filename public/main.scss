@@ -22,11 +22,15 @@ body{
     // background: red;
 }
 #sideMenu{
-    width: 20%;
+    min-width: calc(20% + 10px);
     height: 100vh;
     background: $principal;
     color: $contrast;
+    *{
+        user-select: none;
+    }
     p{
+        overflow: hidden;
         padding: 5px;
         background: $highcontrast;
         font-size: small;
@@ -84,6 +88,9 @@ body{
                 cursor: pointer;
                 background: $secundary;
             }
+            &.select{
+                background: $secundary;
+            }
         }
         .contextmenu{
             &:before{
@@ -100,17 +107,30 @@ body{
     }
 }
 #context-menu{
+    transition: 200ms;
     display: none;
     position: absolute;
     width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 20px;
     background: $secundary;
+    color: #F3EFE0;
     &.active{
         display: block;
     }
     ul.folder , ul.file{
+        list-style: none;
+        width: 100%;
         display: none;
     }
     ul.active{
         display: block;
+    }
+    ul li{
+        border-bottom: 1px solid $principal;
+    }
+    ul li:hover{
+        font-size: 22px;
     }
 }

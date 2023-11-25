@@ -82,7 +82,9 @@
             backButton.addEventListener("click",() => {
                 pathManager('back')
             })
-            div.appendChild(backButton)
+            if(pathActually != '/'){
+                div.appendChild(backButton)
+            }
             Object.keys(data.data).forEach( item => {
                 let liItem = document.createElement('li')
                 if(data.data[item]){
@@ -90,8 +92,18 @@
                     icon.classList.value = 'bx bxs-folder'
                     liItem.appendChild(icon)
                     liItem.classList.add('folder')
-                    liItem.addEventListener("click",(e)=>{
+                    liItem.addEventListener("dblclick",(e)=>{
                         pathManager('join',item)
+                    })
+                    liItem.addEventListener("click",(e)=>{
+                        liItem.classList.toggle("select")
+                        if(div.querySelectorAll('li.select').length === 2){
+                            div.querySelectorAll('li.select').forEach(ele => {
+                                if(liItem != ele){
+                                    ele.classList.toggle("select")
+                                }
+                            })
+                        }
                     })
                 }else{
                     let icon = document.createElement("i")
@@ -143,11 +155,17 @@
         addEventListener("click",(e) => {
             let context = document.querySelector("#context-menu")
             if(context.classList.value === "active"){
-                context.querySelector(".folder").classList.value = ''
-                context.querySelector(".file").classList.value = ''
+                context.querySelector(".folder").classList.value = 'folder'
+                context.querySelector(".file").classList.value = 'file'
                 context.classList.value = ""
+                if(e.target.closest('#context-menu')){
+                    alert(e.target.innerHTML)
+                }
             }
         })
+        function actionManager(action,target){
+            
+        }
     </script>
 </body>
 </html>
